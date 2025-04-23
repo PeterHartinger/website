@@ -59,15 +59,3 @@ document.addEventListener('DOMContentLoaded', () => {
   setupMobileNav();
   setupInfoToggles();
 });
-
-// ====== INITIALIZATION ======
-document.addEventListener('DOMContentLoaded', () => {
-  // Set current year in footer
-  const currentYear = document.getElementById('current-year');
-  if (currentYear) {
-    currentYear.textContent = new Date().getFullYear();
-  }
-
-  // Initialize all functionality
-  setupInfoToggles();
-});
