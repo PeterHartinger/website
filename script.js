@@ -24,6 +24,42 @@ const setupInfoToggles = () => {
   });
 };
 
+// ====== MOBILE NAVIGATION TOGGLE ======
+const setupMobileNav = () => {
+  const hamburger = document.querySelector('.hamburger');
+  const navList = document.querySelector('nav ul');
+  
+  if (hamburger && navList) {
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navList.classList.toggle('active');
+    });
+    
+    // Close menu when clicking a link
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          hamburger.classList.remove('active');
+          navList.classList.remove('active');
+        }
+      });
+    });
+  }
+};
+
+// Update DOMContentLoaded event listener
+document.addEventListener('DOMContentLoaded', () => {
+  // Set current year in footer
+  const currentYear = document.getElementById('current-year');
+  if (currentYear) {
+    currentYear.textContent = new Date().getFullYear();
+  }
+
+  // Initialize all functionality
+  setupMobileNav();
+  setupInfoToggles();
+});
+
 // ====== INITIALIZATION ======
 document.addEventListener('DOMContentLoaded', () => {
   // Set current year in footer
