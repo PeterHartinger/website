@@ -973,3 +973,96 @@ footer {
     margin-top: 0.5rem;
   }
 }
+
+/* ====== MOBILE NAVIGATION ====== */
+@media (max-width: 768px) {
+  /* Convert to hamburger menu */
+  nav {
+    height: 60px;
+    justify-content: space-between;
+    padding: 0 1rem;
+  }
+  
+  nav ul {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: var(--primary);
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  
+  nav ul.active {
+    max-height: 500px; /* Adjust based on your content */
+  }
+  
+  nav li {
+    width: 100%;
+    text-align: center;
+  }
+  
+  nav li a {
+    display: block;
+    padding: 1rem;
+    border-radius: 0;
+  }
+  
+  /* Hamburger icon */
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    cursor: pointer;
+  }
+  
+  .hamburger span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: white;
+    transition: all 0.3s ease;
+  }
+  
+  .hamburger.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .hamburger.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+}
+
+/* Add this to your existing CSS */
+.hamburger {
+  display: none; /* Hidden by default */
+}
+
+@media (max-width: 768px) {
+  /* Adjust body padding to match new nav height */
+  body {
+    padding-top: 60px;
+  }
+  
+  /* Show hamburger only on mobile */
+  .hamburger {
+    display: flex;
+    z-index: 1001;
+  }
+  
+  /* Hide regular nav items on mobile */
+  nav ul {
+    display: flex;
+  }
+}
