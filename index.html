@@ -1,406 +1,1005 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Peter Hartinger | Business Informatics</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peter Hartinger | Business Informatics</title>
+    <style>
+        :root {
+            --nav-height: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .nav-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #3b82f6;
+        }
+
+        nav a.active {
+            color: #3b82f6;
+        }
+
+        nav a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #3b82f6;
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+
+        nav a:hover:after,
+        nav a.active:after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 0;
+            position: relative;
+            scroll-margin-top: var(--nav-height);
+        }
+        
+        section .container {
+            width: 100%;
+        }
+
+        #hero {
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #3b82f6 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.6rem;
+            color: #cbd5e1;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-content .highlight {
+            color: #3b82f6;
+            font-weight: 500;
+        }
+
+        .hero-content .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: #10b981;
+            font-size: 0.95rem;
+            margin: 1.5rem 0 3rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 8px #10b981; }
+            50% { opacity: 0.5; }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px solid #3b82f6;
+            color: #3b82f6;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-3px);
+        }
+
+        h2 {
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            font-weight: 700;
+            color: #f8fafc;
+            position: sticky;
+            top: var(--nav-height);
+            background: linear-gradient(180deg, #0f172a 0%, #0f172a 60%, rgba(15, 23, 42, 0) 100%);
+            backdrop-filter: blur(10px);
+            padding: 0.7rem 0 1.1rem 0;
+            z-index: 100;
+            border-top: 1px solid rgba(59, 130, 246, 0.3);
+            border-bottom: 2px solid transparent;
+            border-image: linear-gradient(90deg, #3b82f6, #8b5cf6, transparent) 1;
+            border-image-slice: 0 0 1 0;
+            margin-left: calc(-50vw + 50%);
+            margin-right: calc(-50vw + 50%);
+            padding-left: calc(50vw - 50% + 3rem);
+            padding-right: calc(50vw - 50% + 3rem);
+            margin-top: -0.7rem;
+            box-shadow: 0 -2px 10px rgba(59, 130, 246, 0.15), 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h2:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            margin-top: 0.7rem;
+            border-radius: 2px;
+        }
+        
+        #contact h2 {
+            text-align: center;
+        }
+        
+        #contact h2:after {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .about-text {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #cbd5e1;
+        }
+
+        .expertise-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 2.5rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .expertise-card h3 {
+            color: #3b82f6;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .expertise-card ul {
+            list-style: none;
+        }
+
+        .expertise-card li {
+            padding: 0.75rem 0;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .expertise-card li:before {
+            content: "✓";
+            color: #3b82f6;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            padding: 2rem;
+            border-radius: 12px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            border-color: #3b82f6;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+            background: rgba(30, 41, 59, 0.7);
+        }
+
+        .skill-card h3 {
+            color: #f8fafc;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .skill-card ul {
+            list-style: none;
+        }
+
+        .skill-card li {
+            padding: 0.6rem 0;
+            color: #cbd5e1;
+            font-size: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .skill-card li:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background: #3b82f6;
+            border-radius: 50%;
+        }
+
+        .project-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            transition: all 0.4s;
+            backdrop-filter: blur(10px);
+        }
+
+        .project-card:hover {
+            border-color: #3b82f6;
+            transform: translateX(8px);
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2);
+            background: rgba(30, 41, 59, 0.6);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.6rem;
+            color: #f8fafc;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-meta {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .project-status {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            white-space: nowrap;
+        }
+
+        .project-description {
+            color: #cbd5e1;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .tag {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #3b82f6 0%, #8b5cf6 100%);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -3.6rem;
+            top: 0.3rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #3b82f6;
+            border: 3px solid #0f172a;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+
+        .timeline-item h3 {
+            color: #f8fafc;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item .institution {
+            color: #3b82f6;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-item .period {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .languages-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .language-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .language-card:hover {
+            transform: scale(1.05) translateY(-5px);
+            border-color: #3b82f6;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .language-card h3 {
+            color: #f8fafc;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .language-card .level {
+            color: #60a5fa;
+            font-size: 0.95rem;
+        }
+
+        #contact .container > *:not(h2) {
+            text-align: center;
+        }
+
+        .contact-text {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            background: rgba(30, 41, 59, 0.5);
+            border: 2px solid rgba(59, 130, 246, 0.5);
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #60a5fa;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-link:hover {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+            border-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem;
+            color: #64748b;
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 2rem;
+            }
+
+            h2 {
+                padding-left: calc(50vw - 50% + 2rem);
+                padding-right: calc(50vw - 50% + 2rem);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 2rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .about-grid,
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .languages-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            h2 {
+                padding-left: calc(50vw - 50% + 1.5rem);
+                padding-right: calc(50vw - 50% + 1.5rem);
+            }
+        }
+
+        @media (max-width: 640px) {
+            nav ul {
+                gap: 0.75rem;
+            }
+
+            nav a {
+                font-size: 0.85rem;
+            }
+
+            .languages-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-content {
+                padding: 0.75rem 1rem;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            nav ul {
+                gap: 0.5rem;
+            }
+
+            nav a {
+                font-size: 0.8rem;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            h2 {
+                padding-left: calc(50vw - 50% + 1rem);
+                padding-right: calc(50vw - 50% + 1rem);
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .languages-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
+    <div class="gradient-bg"></div>
+
     <nav>
-      <div class="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <ul>
-        <li><a href="#hero">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#education">Education</a></li>
-        <li><a href="#languages">Languages</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+        <div class="nav-content">
+            <div class="logo">Peter Hartinger</div>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#languages">Languages</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
     </nav>
-  </header>
 
-  <!-- Hero Section -->
-  <section id="hero" class="hero-bg">
-    <div class="container">
-      <h1>Peter Hartinger</h1>
-      <p class="subtitle">Business Informatics Student | SAP & Coding Enthusiast</p>
-      <div class="cta-buttons">
-        <a href="#projects" class="btn primary">View Projects</a>
-        <a href="CV-Peter-Hartinger.pdf" class="btn secondary">Download CV</a>
-      </div>
-    </div>
-  </section>
-
-<!-- About Me Section -->
-<section id="about" class="section">
-    <div class="container">
-      <div class="about-grid">
-        <!-- Profile Column -->
-        <div class="profile-card">
-          <div class="profile-image">
-          </div>
-          <div class="profile-info">
-            <h2>Peter Hartinger</h2>
-            <p class="subtitle">Business Informatics Student</p>
-            <div class="profile-meta">
-              <p><i class="fas fa-university"></i> Technische Hochschule Mannheim</p>
-              <p><i class="fas fa-map-marker-alt"></i> Location: anywhere</p>
-              <p><i class="fa fa-briefcase" aria-hidden="true"></i> Open to work</p>
+    <section id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Peter Hartinger</h1>
+                <div class="subtitle">3rd-Year Business Informatics Student</div>
+                <div class="subtitle"><span class="highlight">SAP & Coding Enthusiast</span></div>
+                <div class="status">
+                    <span class="status-dot"></span>
+                    Open to work
+                </div>
+                <div class="cta-buttons">
+                    <a href="#experience" class="btn btn-primary">View Experience</a>
+                    <a href="CV-Peter-Hartinger.pdf" class="btn btn-secondary">Download CV</a>
+                </div>
             </div>
-          </div>
         </div>
-  
-        <!-- Bio Column -->
-        <div class="bio-card">
-          <h2 class="section-title">About Me</h2>
-          <div class="bio-content">
-            <p>I'm a 2nd-year business informatics student passionate about bridging business processes with technology solutions. My academic journey has equipped me with both technical expertise and business acumen to develop systems that drive operational efficiency.</p>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>I'm a 3rd-year business informatics student passionate about bridging business processes with technology solutions. My academic journey has equipped me with both technical expertise and business acumen to develop systems that drive operational efficiency.</p>
+                </div>
+                <div class="expertise-card">
+                    <h3>My Expertise</h3>
+                    <ul>
+                        <li>Developing applications for customers</li>
+                        <li>Analyzing business processes</li>
+                        <li>Leading cross-functional project teams</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="container">
+            <h2>Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3>Programming</h3>
+                    <ul>
+                        <li>Java</li>
+                        <li>JavaScript</li>
+                        <li>PHP</li>
+                        <li>HTML/CSS</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h3>Data & Business</h3>
+                    <ul>
+                        <li>SQL/Databases</li>
+                        <li>SAP Fiori</li>
+                        <li>SAP Signavio</li>
+                        <li>Excel</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h3>Productivity</h3>
+                    <ul>
+                        <li>Word</li>
+                        <li>PowerPoint</li>
+                        <li>Figma</li>
+                        <li>GitHub</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <div class="container">
+            <h2>Experience</h2>
             
-            <div class="expertise">
-              <h3><i class="fas fa-star"></i> My Expertise</h3>
-              <ul class="expertise-list">
-                <li>
-                  <i class="fas fa-laptop-code"></i>
-                  <span>Developing applications for costumers</span>
-                </li>
-                <li>
-                    <i class="fa fa-line-chart" aria-hidden="true"></i>
-                  <span>Analyzing business processes</span>
-                </li>
-                <li>
-                  <i class="fas fa-users"></i>
-                  <span>Leading cross-functional project teams</span>
-                </li>
-              </ul>
+            <div class="project-card">
+                <div class="project-header">
+                    <div>
+                        <h3>Software Developer Intern</h3>
+                        <div class="project-meta">KPMG - FS Tax | August 2025 - January 2026</div>
+                    </div>
+                </div>
+                <p class="project-description">
+                    Worked as a Software Developer in the FS Tax department at KPMG. Developed AI agents and contributed to software development for tax technology solutions and financial services clients.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">AI Development</span>
+                    <span class="tag">Software Development</span>
+                    <span class="tag">Financial Services</span>
+                    <span class="tag">Tax Technology</span>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Skills Section -->
-  <section id="skills" class="section">
-    <div class="container">
-      <h2 class="section-title">Technical Skills</h2>
-      <div class="skills-categories">
-        <div class="skill-category">
-          <h3><i class="fas fa-code"></i> Programming</h3>
-          <ul>
-            <li>Java</li>
-            <li>JavaScript</li>
-            <li>PHP</li>
-            <li>HTML/CSS</li>
-          </ul>
-        </div>
-        <div class="skill-category">
-          <h3><i class="fas fa-chart-line"></i> Data & Business</h3>
-          <ul>
-            <li>SQL/Databases</li>
-            <li>SAP Fiori</li>
-            <li>SAP Signavio</li>
-            <li>Excel</li>
-          </ul>
-        </div>
-        <div class="skill-category">
-          <h3><i class="fas fa-file-alt"></i> Productivity</h3>
-          <ul>
-            <li>Word</li>
-            <li>PowerPoint</li>
-            <li>Figma</li>
-            <li>GitHub</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Projects Section -->
-  <section id="projects" class="section">
-    <div class="container">
-      <h2 class="section-title">Projects</h2>
-      
-      <!-- Current Project -->
-      <div class="project-card" data-tags="consulting sap">
-        <div class="project-header">
-          <i class="fas fa-handshake project-icon"></i>
-          <h3>Business Process Consultation</h3>
-        </div>
-        <div class="project-content">
-          <div class="project-status">
-            <span class="status-badge">Active</span>
-            <span class="status-text">Started May 2024 | 5-month engagement</span>
-          </div>
-          <p>Currently collaborating with <strong>Schwarz digits</strong> to analyze and optimize their business processes.</p>
-          <ul class="project-features">
-            <li>Requirement gathering phase</li>
-            <li>Process mapping</li>
-            <li>Client-facing deliverables</li>
-          </ul>
-          <div class="project-next-steps">
-            <i class="fas fa-arrow-right"></i>
-            <span>Upcoming: Process modeling & gap analysis</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Academic Projects -->
-      <div class="projects-grid">
-        <div class="project-card" data-tags="sap">
-          <div class="project-header">
-            <i class="fa fa-line-chart" aria-hidden="true"></i>
-            <h3>SAP Fiori Case Study</h3>
-          </div>
-          <div class="project-content">
-            <p>Explored navigation, controlling, and materials management in SAP S/4HANA through academic case studies.</p>
-            <ul class="project-features">
-              <li>SAP Fiori UI</li>
-              <li>Materials Management</li>
-              <li>Controlling Modules</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card" data-tags="web java">
-          <div class="project-header">
-            <i class="fas fa-utensils project-icon"></i>
-            <h3>Restaurant Management System</h3>
-          </div>
-          <div class="project-content">
-            <p>Full-stack website for online food ordering and employee shift management, developed as a group project.</p>
-            <ul class="project-features">
-              <li>Customer ordering system</li>
-              <li>Employee portal</li>
-              <li>Academic client project</li>
-            </ul>
-            <a href="https://github.com/PeterHartinger/Restaurant-Verwaltung" class="project-link" target="_blank">
-              <i class="fab fa-github"></i> View on GitHub
-            </a>
-          </div>
-        </div>
-        <!-- Flight Logbook App Project -->
-<div class="project-card" data-tags="java">
-  <div class="project-header">
-    <i class="fas fa-plane project-icon"></i>
-    <h3>Flight Logbook App</h3>
-  </div>
-  
-  <div class="project-content">
-    <p>Digital flight logbook application developed by a team of 5 for a professor (hobby pilot) following full software development lifecycle processes.</p>
-    
-    <button class="info-toggle" aria-expanded="false">
-      <span class="toggle-text">Show Project Documentation (German)</span>
-      <i class="fas fa-chevron-down"></i>
-    </button>
-    
-    <div class="additional-info">
-      <h4>Development Process Documents:</h4>
-      <div class="document-grid">
-        <a href="FlugLogBuch/Lastenheft.pdf" download class="document-link">
-          <i class="fas fa-file-contract"></i>
-          <span>Specification Sheet</span>
-        </a>
-        
-        <a href="FlugLogBuch/Pflichtenheft.pdf" download class="document-link">
-          <i class="fas fa-clipboard-check"></i>
-          <span>Requirements Document</span>
-        </a>
-        
-        <a href="FlugLogBuch/Traceability.pdf" download class="document-link">
-          <i class="fas fa-project-diagram"></i>
-          <span>Traceability Document</span>
-        </a>
-        
-        <a href="FlugLogBuch/Software Konfiguration Management Plan.pdf" download class="document-link">
-          <i class="fas fa-cogs"></i>
-          <span>Configuration Plan</span>
-        </a>
-        
-        <a href="FlugLogBuch/Testplan.pdf" download class="document-link">
-          <i class="fas fa-vial"></i>
-          <span>Test Plan</span>
-        </a>
-        
-        <a href="FlugLogBuch/Testbericht.pdf" download class="document-link">
-          <i class="fas fa-clipboard-list"></i>
-          <span>Test Report</span>
-        </a>
-        
-        <a href="FlugLogBuch/Release.pdf" download class="document-link">
-          <i class="fas fa-flag"></i>
-          <span>Release Notes</span>
-        </a>
-      </div>
-      
-      <div class="project-process">
-        <h4>Development Process:</h4>
-        <p>Our team followed an academic software engineering approach:</p>
-        <ol>
-          <li>Initial client interview to gather requirements</li>
-          <li>Created both specification and requirements documents</li>
-          <li>Developed traceability matrix and configuration plan</li>
-          <li>Implemented using MVC architecture</li>
-          <li>Conducted comprehensive testing with test plans/reports</li>
-          <li>Delivered final presentation to client</li>
-        </ol>
-        <p><em>Note: All documents are in German. Contributors anonymized as "participants".</em></p>
-      </div>
-    </div>
-  </div>
-</div>
-        <div class="project-card" data-tags="java">
-          <div class="project-header">
-            <i class="fas fa-gamepad project-icon"></i>
-            <h3>Tic-Tac-Toe</h3>
-          </div>
-          <div class="project-content">
-            <p>First-semester Java application implementing classic game to demonstrate OOP principles.</p>
-            <ul class="project-features">
-              <li>Console application</li>
-              <li>Object-oriented design</li>
-              <li>Academic foundation project</li>
-            </ul>
-            <a href="https://github.com/PeterHartinger/TicTacToe" class="project-link" target="_blank">
-              <i class="fab fa-github"></i> View on GitHub
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="education" class="section">
-    <div class="container">
-      <h2 class="section-title">Education Timeline</h2>
-      <div class="timeline">
-        <!-- Current Item 1 - THM -->
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <div class="timeline-header">
-              <img src="img/TH_Mannheim_Logo_RGB_blau.png" alt="thm Logo" class="institution-logo">
-              <div>
-                <h3>B.Sc. Business Informatics</h3>
-                <p class="institution">Technische Hochschule Mannheim</p>
-                <p class="date">September 2023 - Present</p>
-              </div>
+            <div class="project-card">
+                <div class="project-header">
+                    <div>
+                        <h3>Business Process Consultant</h3>
+                        <div class="project-meta">Schwarz digits | May 2024 - July 2025</div>
+                    </div>
+                </div>
+                <p class="project-description">
+                    Collaborated with Schwarz digits to analyze and optimize their business processes. Worked on requirement gathering, process mapping, and delivered client-facing solutions.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">Process Analysis</span>
+                    <span class="tag">SAP</span>
+                    <span class="tag">Consulting</span>
+                    <span class="tag">Client Facing</span>
+                </div>
             </div>
-            <div class="timeline-description">
-              <!-- <p></p>-->
-            </div>
-          </div>
         </div>
-        
-        <!-- Current Item 2 - GRB -->
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <div class="timeline-header">
-              <img src="img/GRB-Logo.png" alt="GRB Logo" class="institution-logo">
-              <div>
-                <h3>Abitur</h3>
-                <p class="institution">Gymnasium Riedberg</p>
-                <p class="date">August 2014 - June 2023</p>
-              </div>
-            </div>
-            <div class="timeline-description">
-              <!-- <p></p>-->
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Languages Section -->
-  <section id="languages" class="section">
-    <div class="container">
-      <h2 class="section-title">Languages</h2>
-      <div class="languages-grid">
-        <div class="language">
-          <span class="language-name">German</span>
-          <div class="proficiency">
-            <span class="level native">Native</span>
-          </div>
-        </div>
-        <div class="language">
-          <span class="language-name">English</span>
-          <div class="proficiency">
-            <span class="level fluent">Fluent (C1)</span>
-          </div>
-        </div>
-        <div class="language">
-          <span class="language-name">Spanish</span>
-          <div class="proficiency">
-            <span class="level intermediate">Intermediate (B1/B2)</span>
-          </div>
-        </div>
-        <div class="language">
-          <span class="language-name">Italian</span>
-          <div class="proficiency">
-            <span class="level basic">Basic Conversation (A1)</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <section id="projects">
+        <div class="container">
+            <h2>Projects</h2>
 
-  <!-- Contact Section -->
-  <section id="contact" class="section contact-bg">
-    <div class="container">
-      <h2 class="section-title">Get In Touch</h2>
-      <div class="contact-grid">
-        <div class="contact-info">
-          <h3>Contact Details</h3>
-          <ul>
-            <li><i class="fas fa-envelope"></i> <a href="mailto:peter.hartinger.work@gmail.com" aria-label="Email"  style="color: black; text-decoration: none;">peter.hartinger.work@gmail.com</a></li>
-            <li><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/peter-hartinger" aria-label="LinkedIn" style="color: black; text-decoration: none;">linkedin.com/in/peter-hartinger</a></li>
-            <li><i class="fab fa-github"></i> <a href="github.com/PeterHartinger" aria-label="GitHub" style="color: black; text-decoration: none;">github.com/PeterHartinger</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+            <div class="project-card">
+                <h3>Flight Logbook App</h3>
+                <p class="project-description">
+                    Digital flight logbook application developed by a team of 5 for a professor (hobby pilot) following full software development lifecycle processes with comprehensive documentation.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">Java</span>
+                    <span class="tag">MVC Architecture</span>
+                    <span class="tag">SDLC</span>
+                    <span class="tag">Team of 5</span>
+                </div>
+            </div>
 
-  <footer>
-    <div class="footer-container">
-      <div class="footer-content">
-        <div class="footer-logo">
-          <span>PH</span> <!-- Your initials -->
+            <div class="project-card">
+                <h3>Restaurant Management System</h3>
+                <p class="project-description">
+                    Full-stack website for online food ordering and employee shift management, developed as a group project with real client requirements.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">Full-Stack</span>
+                    <span class="tag">Team Project</span>
+                    <span class="tag">Web Development</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <h3>SAP Fiori Case Study</h3>
+                <p class="project-description">
+                    Explored navigation, controlling, and materials management in SAP S/4HANA through comprehensive academic case studies.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">SAP Fiori</span>
+                    <span class="tag">Materials Management</span>
+                    <span class="tag">Controlling</span>
+                </div>
+            </div>
         </div>
-        <div class="footer-links">
-          <a href="#hero">Home</a>
-          <a href="#projects">Work</a>
-          <a href="#contact">Contact</a>
+    </section>
+
+    <section id="education">
+        <div class="container">
+            <h2>Education</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>Exchange Semester</h3>
+                    <div class="institution">Hong Kong University of Science and Technology</div>
+                    <div class="period">January 2026 - Present</div>
+                    <p style="color: #cbd5e1; margin-top: 0.5rem; font-size: 0.95rem;">Focus: AI and Machine Learning modules</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>B.Sc. Business Informatics</h3>
+                    <div class="institution">Technische Hochschule Mannheim</div>
+                    <div class="period">September 2023 - Present</div>
+                </div>
+                <div class="timeline-item">
+                    <h3>Abitur</h3>
+                    <div class="institution">Gymnasium Riedberg</div>
+                    <div class="period">August 2014 - June 2023</div>
+                </div>
+            </div>
         </div>
-        <div class="footer-social">
-          <a href="https://www.linkedin.com/in/peter-hartinger" aria-label="LinkedIn">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-          <a href="github.com/PeterHartinger" aria-label="GitHub">
-            <i class="fab fa-github"></i>
-          </a>
-          <a href="mailto:peter.hartinger.work@gmail.com" aria-label="Email">
-            <i class="fas fa-envelope"></i>
-          </a>
+    </section>
+
+    <section id="languages">
+        <div class="container">
+            <h2>Languages</h2>
+            <div class="languages-grid">
+                <div class="language-card">
+                    <h3>German</h3>
+                    <div class="level">Native</div>
+                </div>
+                <div class="language-card">
+                    <h3>English</h3>
+                    <div class="level">Fluent (C1)</div>
+                </div>
+                <div class="language-card">
+                    <h3>Spanish</h3>
+                    <div class="level">Intermediate (B1/B2)</div>
+                </div>
+                <div class="language-card">
+                    <h3>Italian</h3>
+                    <div class="level">Basic (A1)</div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; <span id="current-year"></span> Peter Hartinger. All rights reserved.</p>
-        <p class="footer-credits">Built with ♥ and <i class="fas fa-coffee"></i></p>
-      </div>
-    </div>  
-  </footer>
-  <script src="script.js"></script>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <p class="contact-text">
+                I'm always open to discussing new projects, opportunities, or collaborations. Let's connect!
+            </p>
+            <div class="contact-links">
+                <a href="mailto:peter.hartinger.work@gmail.com" class="contact-link">Email</a>
+                <a href="https://www.linkedin.com/in/peter-hartinger" class="contact-link" target="_blank">LinkedIn</a>
+                <a href="https://github.com/PeterHartinger" class="contact-link" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            © 2026 Peter Hartinger. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Update nav height dynamically
+        function updateNavHeight() {
+            const nav = document.querySelector('nav');
+            const navHeight = nav.offsetHeight;
+            document.documentElement.style.setProperty('--nav-height', `${navHeight}px`);
+        }
+
+        // Update on load and resize
+        updateNavHeight();
+        window.addEventListener('resize', updateNavHeight);
+
+        // Active navigation state
+        const navLinks = document.querySelectorAll('nav a[href^="#"]');
+        const sections = document.querySelectorAll('section');
+
+        function updateActiveNav() {
+            const scrollPosition = window.scrollY + 100;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveNav);
+        updateActiveNav();
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations (only on scroll, not initial load)
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        let hasScrolled = false;
+
+        window.addEventListener('scroll', () => {
+            hasScrolled = true;
+        }, { once: true });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && hasScrolled) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Make hero section visible immediately
+        const heroSection = document.querySelector('#hero');
+        heroSection.style.opacity = '1';
+        heroSection.style.transform = 'translateY(0)';
+
+        // Animate other sections on scroll
+        document.querySelectorAll('section:not(#hero)').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(section);
+        });
+
+        // Animate cards individually
+        document.querySelectorAll('.skill-card, .project-card, .language-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+            observer.observe(card);
+        });
+    </script>
 </body>
 </html>
