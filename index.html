@@ -1,1005 +1,830 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peter Hartinger | Business Informatics</title>
-    <style>
-        :root {
-            --nav-height: 80px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0f172a;
-            color: #e2e8f0;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        .gradient-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-        }
-
-        .nav-content {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 1.5rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        nav ul {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #cbd5e1;
-            font-size: 0.95rem;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        nav a:hover {
-            color: #3b82f6;
-        }
-
-        nav a.active {
-            color: #3b82f6;
-        }
-
-        nav a:after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: #3b82f6;
-            transition: all 0.3s;
-            transform: translateX(-50%);
-        }
-
-        nav a:hover:after,
-        nav a.active:after {
-            width: 100%;
-        }
-
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 3rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 6rem 0;
-            position: relative;
-            scroll-margin-top: var(--nav-height);
-        }
-        
-        section .container {
-            width: 100%;
-        }
-
-        #hero {
-            position: relative;
-        }
-
-        .hero-content h1 {
-            font-size: 4.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #ffffff 0%, #3b82f6 50%, #8b5cf6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -2px;
-        }
-
-        .hero-content .subtitle {
-            font-size: 1.6rem;
-            color: #cbd5e1;
-            margin-bottom: 0.5rem;
-        }
-
-        .hero-content .highlight {
-            color: #3b82f6;
-            font-weight: 500;
-        }
-
-        .hero-content .status {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            color: #10b981;
-            font-size: 0.95rem;
-            margin: 1.5rem 0 3rem;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: #10b981;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; box-shadow: 0 0 8px #10b981; }
-            50% { opacity: 0.5; }
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .btn {
-            padding: 1rem 2.5rem;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: all 0.3s;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
-        }
-
-        .btn-secondary {
-            background: rgba(59, 130, 246, 0.1);
-            border: 2px solid #3b82f6;
-            color: #3b82f6;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(59, 130, 246, 0.2);
-            transform: translateY(-3px);
-        }
-
-        h2 {
-            font-size: 3rem;
-            margin-bottom: 3rem;
-            font-weight: 700;
-            color: #f8fafc;
-            position: sticky;
-            top: var(--nav-height);
-            background: linear-gradient(180deg, #0f172a 0%, #0f172a 60%, rgba(15, 23, 42, 0) 100%);
-            backdrop-filter: blur(10px);
-            padding: 0.7rem 0 1.1rem 0;
-            z-index: 100;
-            border-top: 1px solid rgba(59, 130, 246, 0.3);
-            border-bottom: 2px solid transparent;
-            border-image: linear-gradient(90deg, #3b82f6, #8b5cf6, transparent) 1;
-            border-image-slice: 0 0 1 0;
-            margin-left: calc(-50vw + 50%);
-            margin-right: calc(-50vw + 50%);
-            padding-left: calc(50vw - 50% + 3rem);
-            padding-right: calc(50vw - 50% + 3rem);
-            margin-top: -0.7rem;
-            box-shadow: 0 -2px 10px rgba(59, 130, 246, 0.15), 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        h2:after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            margin-top: 0.7rem;
-            border-radius: 2px;
-        }
-        
-        #contact h2 {
-            text-align: center;
-        }
-        
-        #contact h2:after {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 4rem;
-            align-items: start;
-        }
-
-        .about-text {
-            font-size: 1.15rem;
-            line-height: 1.8;
-            color: #cbd5e1;
-        }
-
-        .expertise-card {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            padding: 2.5rem;
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .expertise-card h3 {
-            color: #3b82f6;
-            margin-bottom: 1.5rem;
-            font-size: 1.3rem;
-        }
-
-        .expertise-card ul {
-            list-style: none;
-        }
-
-        .expertise-card li {
-            padding: 0.75rem 0;
-            color: #e2e8f0;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .expertise-card li:before {
-            content: "✓";
-            color: #3b82f6;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .skill-card {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            padding: 2rem;
-            border-radius: 12px;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-            border-color: #3b82f6;
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
-            background: rgba(30, 41, 59, 0.7);
-        }
-
-        .skill-card h3 {
-            color: #f8fafc;
-            margin-bottom: 1.5rem;
-            font-size: 1.3rem;
-        }
-
-        .skill-card ul {
-            list-style: none;
-        }
-
-        .skill-card li {
-            padding: 0.6rem 0;
-            color: #cbd5e1;
-            font-size: 1rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .skill-card li:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 6px;
-            height: 6px;
-            background: #3b82f6;
-            border-radius: 50%;
-        }
-
-        .project-card {
-            background: rgba(30, 41, 59, 0.4);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            padding: 2.5rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            transition: all 0.4s;
-            backdrop-filter: blur(10px);
-        }
-
-        .project-card:hover {
-            border-color: #3b82f6;
-            transform: translateX(8px);
-            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2);
-            background: rgba(30, 41, 59, 0.6);
-        }
-
-        .project-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 1rem;
-        }
-
-        .project-card h3 {
-            font-size: 1.6rem;
-            color: #f8fafc;
-            margin-bottom: 0.5rem;
-        }
-
-        .project-meta {
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-
-        .project-status {
-            background: rgba(16, 185, 129, 0.15);
-            color: #10b981;
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            white-space: nowrap;
-        }
-
-        .project-description {
-            color: #cbd5e1;
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        .tag {
-            background: rgba(59, 130, 246, 0.15);
-            color: #60a5fa;
-            padding: 0.4rem 1rem;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-
-        .timeline {
-            position: relative;
-            padding-left: 3rem;
-        }
-
-        .timeline:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg, #3b82f6 0%, #8b5cf6 100%);
-            border-radius: 2px;
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 3rem;
-            padding-left: 2rem;
-        }
-
-        .timeline-item:before {
-            content: '';
-            position: absolute;
-            left: -3.6rem;
-            top: 0.3rem;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #3b82f6;
-            border: 3px solid #0f172a;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-        }
-
-        .timeline-item h3 {
-            color: #f8fafc;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-item .institution {
-            color: #3b82f6;
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-        }
-
-        .timeline-item .period {
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-
-        .languages-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-        }
-
-        .language-card {
-            background: rgba(30, 41, 59, 0.4);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            padding: 2rem;
-            border-radius: 12px;
-            text-align: center;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        .language-card:hover {
-            transform: scale(1.05) translateY(-5px);
-            border-color: #3b82f6;
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
-        }
-
-        .language-card h3 {
-            color: #f8fafc;
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .language-card .level {
-            color: #60a5fa;
-            font-size: 0.95rem;
-        }
-
-        #contact .container > *:not(h2) {
-            text-align: center;
-        }
-
-        .contact-text {
-            font-size: 1.2rem;
-            color: #cbd5e1;
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .contact-link {
-            background: rgba(30, 41, 59, 0.5);
-            border: 2px solid rgba(59, 130, 246, 0.5);
-            padding: 1rem 2.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #60a5fa;
-            font-size: 1.1rem;
-            font-weight: 500;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        .contact-link:hover {
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
-            border-color: transparent;
-        }
-
-        footer {
-            text-align: center;
-            padding: 3rem;
-            color: #64748b;
-            border-top: 1px solid rgba(148, 163, 184, 0.2);
-        }
-
-        @media (max-width: 1024px) {
-            .container {
-                padding: 0 2rem;
-            }
-
-            h2 {
-                padding-left: calc(50vw - 50% + 2rem);
-                padding-right: calc(50vw - 50% + 2rem);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-content {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem 2rem;
-            }
-
-            nav ul {
-                gap: 1rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero-content .subtitle {
-                font-size: 1.2rem;
-            }
-
-            .about-grid,
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .languages-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            h2 {
-                font-size: 2rem;
-            }
-
-            .container {
-                padding: 0 1.5rem;
-            }
-
-            h2 {
-                padding-left: calc(50vw - 50% + 1.5rem);
-                padding-right: calc(50vw - 50% + 1.5rem);
-            }
-        }
-
-        @media (max-width: 640px) {
-            nav ul {
-                gap: 0.75rem;
-            }
-
-            nav a {
-                font-size: 0.85rem;
-            }
-
-            .languages-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .nav-content {
-                padding: 0.75rem 1rem;
-            }
-
-            .logo {
-                font-size: 1.1rem;
-            }
-
-            nav ul {
-                gap: 0.5rem;
-            }
-
-            nav a {
-                font-size: 0.8rem;
-            }
-
-            h2 {
-                font-size: 1.75rem;
-            }
-
-            .container {
-                padding: 0 1rem;
-            }
-
-            h2 {
-                padding-left: calc(50vw - 50% + 1rem);
-                padding-right: calc(50vw - 50% + 1rem);
-            }
-
-            .btn {
-                width: 100%;
-                text-align: center;
-            }
-
-            .languages-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Peter Hartinger – Business Informatics student with experience in consulting, AI development, business analysis, and process optimization at KPMG and Schwarz IT.">
+<title>Peter Hartinger | Business Informatics</title>
+<meta property="og:title" content="Peter Hartinger | Consulting, Analytics, AI">
+<meta property="og:description" content="Business Informatics student with experience in consulting, AI, business analysis, and process optimization.">
+<meta property="og:image" content="https://yourwebsite.com/preview-image.jpg">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f2540;
+  --navy-light:#1a3a5c;
+  --accent:#c8a96e;
+  --text:#1a1a1a;
+  --muted:#6b6b6b;
+  --border:#e2e2e2;
+  --bg:#fafaf8;
+  --white:#ffffff;
+  --tag-bg:#f0ede8;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;font-size:16px;color:var(--text);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}
+
+/* SCROLL PROGRESS */
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:500;width:0%;transition:width .1s linear;pointer-events:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,37,64,0.97);backdrop-filter:blur(8px)}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px}
+.nav-logo{font-family:'Playfair Display',serif;color:var(--white);font-size:1.1rem;letter-spacing:0.02em;text-decoration:none}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.82rem;letter-spacing:0.06em;text-transform:uppercase;transition:color .2s;position:relative;padding-bottom:2px}
+.nav-links a:not(.nav-cta)::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--accent);transition:width .25s ease}
+.nav-links a:not(.nav-cta):hover::after{width:100%}
+.nav-links a:hover{color:var(--accent)}
+.nav-cta{background:var(--accent);color:var(--navy)!important;padding:0.45rem 1rem 0.4rem;border-radius:3px;font-weight:500;line-height:1;display:flex;align-items:center}
+.nav-links a.nav-cta{padding:0.45rem 1rem 0.4rem!important}
+.nav-cta:hover{background:#d9bb80;color:var(--navy)!important}
+.nav-links a.nav-cta::after{display:none!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--white);transition:.3s}
+.mobile-menu{display:none;position:fixed;top:60px;left:0;right:0;background:var(--navy);z-index:99;padding:1.5rem 2rem;flex-direction:column;gap:1.2rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:rgba(255,255,255,0.8);text-decoration:none;font-size:0.95rem;padding:0.3rem 0;border-bottom:1px solid rgba(255,255,255,0.08)}
+
+/* HERO */
+#hero{min-height:100vh;background:var(--navy);display:flex;align-items:center;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;opacity:0.04;background-image:linear-gradient(var(--white) 1px,transparent 1px),linear-gradient(90deg,var(--white) 1px,transparent 1px);background-size:60px 60px}
+.hero-inner{max-width:1100px;margin:0 auto;padding:clamp(5rem, 12vh, 8rem) 2rem clamp(3rem, 6vh, 4rem);position:relative;z-index:1}
+.hero-tag{display:inline-block;background:rgba(200,169,110,0.15);border:1px solid rgba(200,169,110,0.3);color:var(--accent);font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.35rem 0.9rem;border-radius:3px;margin-bottom:2rem;animation:fadeUp .6s ease both;animation-delay:.1s}
+h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,7vw,5.5rem);color:var(--white);line-height:1.05;letter-spacing:-0.01em;margin-bottom:1.5rem;animation:heroReveal .9s cubic-bezier(.16,1,.3,1) both;animation-delay:.3s}
+h1 em{color:var(--accent);font-style:normal}
+.hero-sub{font-size:1.1rem;color:rgba(255,255,255,0.6);max-width:520px;margin-bottom:2.5rem;font-weight:300;line-height:1.8;animation:fadeUp .7s ease both;animation-delay:.7s}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .7s ease both;animation-delay:.9s}
+@keyframes heroReveal{from{opacity:0;clip-path:inset(0 0 100% 0)}to{opacity:1;clip-path:inset(0 0 -8px 0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.btn-primary{background:var(--accent);color:var(--navy);padding:0.75rem 2rem;border-radius:3px;text-decoration:none;font-weight:500;font-size:0.9rem;transition:.2s;letter-spacing:0.02em}
+.btn-primary:hover{background:#d9bb80}
+.btn-outline{border:1px solid rgba(255,255,255,0.3);color:var(--white);padding:0.75rem 2rem;border-radius:3px;text-decoration:none;font-weight:400;font-size:0.9rem;transition:.2s}
+.btn-outline:hover{border-color:rgba(255,255,255,0.6)}
+
+/* SECTIONS */
+section{padding:6rem 0}
+.container{max-width:1100px;margin:0 auto;padding:0 2rem}
+.section-label{font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:0.8rem;font-weight:500}
+h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,2.8rem);color:var(--navy);line-height:1.15;margin-bottom:1rem}
+.section-intro{font-size:1.05rem;color:var(--muted);max-width:580px;line-height:1.8}
+
+/* FADE IN */
+.fade-in{opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
+.fade-in.visible{opacity:1;transform:none}
+
+/* ABOUT */
+#about{background:var(--white)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;margin-top:3.5rem}
+.about-text p{color:var(--muted);line-height:1.9;margin-bottom:1.2rem;font-size:0.97rem}
+.about-highlights{display:flex;flex-direction:column;gap:1.2rem}
+.highlight-item{display:flex;gap:1rem;align-items:flex-start}
+.highlight-icon{width:36px;height:36px;background:var(--navy);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.highlight-icon svg{width:16px;height:16px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.highlight-text strong{display:block;font-size:0.9rem;font-weight:500;color:var(--navy);margin-bottom:0.2rem}
+.highlight-text span{font-size:0.84rem;color:var(--muted)}
+
+/* EXPERIENCE */
+#experience{background:var(--bg)}
+.exp-list{margin-top:3rem;display:flex;flex-direction:column}
+.exp-item{display:grid;grid-template-columns:160px 1fr auto;gap:2rem;padding:2rem 1rem;border-bottom:1px solid var(--border);transition:background .2s;border-radius:4px;margin:0 -1rem}
+.exp-item:first-child{border-top:1px solid var(--border)}
+.exp-item.clickable{cursor:pointer}
+.exp-item.clickable:hover{background:var(--white)}
+.exp-date{font-size:0.8rem;color:var(--muted);padding-top:0.25rem;line-height:1.5}
+.exp-date strong{display:block;font-size:0.88rem;color:var(--navy);font-weight:500;margin-bottom:0.25rem}
+.exp-content h3{font-size:1.1rem;font-weight:500;color:var(--navy);margin-bottom:0.2rem}
+.exp-company{font-size:0.88rem;color:var(--accent);font-weight:500;margin-bottom:0.8rem}
+.exp-content p{font-size:0.9rem;color:var(--muted);line-height:1.8;margin-bottom:0.8rem}
+.exp-tags{display:flex;flex-wrap:wrap;gap:0.4rem}
+.exp-tag{background:var(--tag-bg);color:var(--navy-light);font-size:0.74rem;padding:0.25rem 0.6rem;border-radius:2px}
+.exp-arrow{color:var(--accent);font-size:1.2rem;align-self:center;opacity:0;transform:translateX(-4px);transition:opacity .2s,transform .2s}
+.exp-item.clickable:hover .exp-arrow{opacity:1;transform:none}
+.view-more{display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;color:var(--accent);margin-top:0.8rem;opacity:0;transform:translateX(-6px);transition:opacity .2s,transform .2s}
+.view-more svg{width:13px;height:13px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.clickable:hover .view-more{opacity:1;transform:none}
+.clickable:hover .view-more svg{transform:translateX(3px)}
+
+/* EDUCATION */
+#education{background:var(--white)}
+.edu-list{margin-top:3rem;display:flex;flex-direction:column;gap:1.5rem}
+.edu-item{background:var(--white);border:1px solid var(--border);border-radius:4px;padding:2rem;display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:start;transition:box-shadow .25s ease}
+.edu-item:hover{box-shadow:0 6px 20px rgba(15,37,64,.06)}
+.edu-degree{font-size:1.05rem;font-weight:500;color:var(--navy);margin-bottom:0.25rem}
+.edu-school{font-size:0.9rem;color:var(--accent);margin-bottom:0.6rem}
+.edu-detail{font-size:0.82rem;color:var(--muted);line-height:1.7}
+.edu-date{font-size:0.8rem;color:var(--muted);text-align:right;white-space:nowrap}
+.edu-badge{display:inline-block;background:rgba(200,169,110,0.12);border:1px solid rgba(200,169,110,0.25);color:var(--accent);font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:2px;margin-bottom:0.5rem}
+
+/* SKILLS */
+#skills{background:var(--bg)}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-top:3rem}
+.skill-card{background:var(--white);border:1px solid var(--border);border-radius:4px;padding:1.5rem}
+.skill-card h3{font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;font-weight:500}
+.skill-tags{display:flex;flex-wrap:wrap;gap:0.5rem}
+.tag{background:var(--tag-bg);color:var(--navy-light);font-size:0.78rem;padding:0.3rem 0.7rem;border-radius:2px;font-weight:400;opacity:0;transform:scale(.92);transition:opacity .3s ease,transform .3s ease,background .2s}
+.tag.visible{opacity:1;transform:none}
+.tag:hover{background:#e0dbd3}
+
+/* PROJECTS */
+#projects{background:var(--white)}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-top:3rem}
+.project-card{border:1px solid var(--border);border-radius:4px;padding:2rem;background:var(--bg);transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.project-card.clickable{cursor:pointer}
+.project-card.clickable:hover{border-color:#b0a898;background:var(--white);transform:translateY(-4px);box-shadow:0 12px 32px rgba(15,37,64,.08)}
+.project-card h3{font-size:1rem;font-weight:500;color:var(--navy);margin-bottom:0.6rem}
+.project-card p{font-size:0.86rem;color:var(--muted);line-height:1.8;margin-bottom:1rem}
+.project-tags{display:flex;flex-wrap:wrap;gap:0.4rem}
+
+/* CERTIFICATIONS */
+#certifications{background:var(--bg)}
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:3rem}
+.cert-card{background:var(--white);border:1px solid var(--border);border-radius:4px;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;transition:transform .25s ease,box-shadow .25s ease}
+.cert-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(15,37,64,.07)}
+.cert-icon{width:40px;height:40px;background:var(--navy);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.cert-icon svg{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cert-card h3{font-size:0.9rem;font-weight:500;color:var(--navy);margin-bottom:0.2rem}
+.cert-card p{font-size:0.8rem;color:var(--muted)}
+
+/* LANGUAGES */
+#languages{background:var(--white)}
+.lang-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-top:3rem}
+.lang-item{border:1px solid var(--border);border-radius:4px;padding:1.2rem 1.5rem}
+.lang-name{font-weight:500;font-size:0.95rem;color:var(--navy);margin-bottom:0.25rem}
+.lang-level{font-size:0.8rem;color:var(--muted)}
+.lang-bar{height:2px;background:var(--border);border-radius:1px;margin-top:0.8rem;overflow:hidden}
+.lang-fill{height:100%;background:var(--accent);border-radius:1px}
+
+/* CONTACT */
+#contact{background:var(--navy)}
+#contact .section-label{color:var(--accent)}
+#contact h2{color:var(--white)}
+#contact .section-intro{color:rgba(255,255,255,0.55)}
+.contact-links{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:2.5rem}
+.contact-link{display:flex;align-items:center;gap:0.6rem;color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.9rem;border:1px solid rgba(255,255,255,0.15);padding:0.65rem 1.2rem;border-radius:3px;transition:.2s}
+.contact-link:hover{border-color:var(--accent);color:var(--accent)}
+.contact-link svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+/* FOOTER */
+footer{background:var(--navy);border-top:1px solid rgba(255,255,255,0.07);padding:2rem;text-align:center}
+footer p{font-size:0.8rem;color:rgba(255,255,255,0.3)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:400;background:rgba(10,24,40,0);display:flex;align-items:center;justify-content:center;padding:1.5rem;pointer-events:none;transition:background .3s ease}
+.modal-overlay.open{background:rgba(10,24,40,.65);pointer-events:all}
+.modal-box{background:var(--white);border-radius:8px;max-width:660px;width:100%;max-height:88vh;overflow-y:auto;padding:2.5rem;transform:scale(.93) translateY(20px);opacity:0;transition:transform .4s cubic-bezier(.16,1,.3,1),opacity .3s ease;position:relative;scrollbar-width:thin;scrollbar-color:var(--accent) var(--bg)}
+.modal-box::-webkit-scrollbar{width:4px}
+.modal-box::-webkit-scrollbar-track{background:var(--bg);border-radius:2px}
+.modal-box::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+.modal-box::-webkit-scrollbar-thumb:hover{background:#b8995e}
+.modal-overlay.open .modal-box{transform:none;opacity:1}
+.modal-close{position:absolute;top:1.2rem;right:1.2rem;background:none;border:1px solid var(--border);width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s}
+.modal-close:hover{background:var(--bg);border-color:#aaa}
+.modal-close svg{width:14px;height:14px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round}
+.modal-meta{font-size:0.8rem;color:var(--accent);font-weight:500;letter-spacing:0.04em;margin-bottom:0.4rem}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--navy);line-height:1.2;margin-bottom:0.4rem}
+.modal-sub{font-size:0.85rem;color:var(--muted);margin-bottom:1.8rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.modal-section{margin-bottom:1.4rem}
+.modal-section h4{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:0.6rem;font-weight:500}
+.modal-section p{font-size:0.9rem;color:var(--muted);line-height:1.85}
+.modal-section ul{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+.modal-section ul li{font-size:0.9rem;color:var(--muted);line-height:1.7;padding-left:1rem;position:relative}
+.modal-section ul li::before{content:'';position:absolute;left:0;top:.7em;width:4px;height:4px;border-radius:50%;background:var(--accent)}
+.modal-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.2rem}
+.modal-tag{background:var(--tag-bg);color:var(--navy-light);font-size:0.78rem;padding:0.3rem 0.7rem;border-radius:2px}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .about-grid{grid-template-columns:1fr;gap:2.5rem}
+  .exp-item{grid-template-columns:1fr;gap:0.5rem}
+  .exp-arrow{display:none}
+  .edu-item{grid-template-columns:1fr}
+  .edu-date{text-align:left}
+  h1{font-size:2.8rem}
+  .modal-box{padding:1.5rem}
+}
+
+/* MODAL LOGO */
+.modal-logo{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)}
+.modal-logo-img{width:48px;height:48px;border-radius:6px;object-fit:contain;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.modal-logo-img img{width:100%;height:100%;object-fit:contain;padding:6px}
+.modal-logo-placeholder{width:48px;height:48px;border-radius:6px;background:var(--navy);display:flex;align-items:center;justify-content:center;flex-shrink:0;flex-direction:column;gap:1px}
+.modal-logo-placeholder span{font-size:0.6rem;font-weight:700;color:var(--accent);letter-spacing:0.05em;line-height:1}
+.modal-logo-info{}
+.modal-logo-info .logo-name{font-size:0.95rem;font-weight:500;color:var(--navy)}
+.modal-logo-info .logo-sub{font-size:0.78rem;color:var(--muted)}
+
+</style>
 </head>
 <body>
-    <div class="gradient-bg"></div>
 
-    <nav>
-        <div class="nav-content">
-            <div class="logo">Peter Hartinger</div>
-            <ul>
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#languages">Languages</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#hero">PH</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="hamburger" aria-label="Open menu" onclick="document.getElementById('mobileMenu').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="document.getElementById('mobileMenu').classList.remove('open')">About</a>
+  <a href="#experience" onclick="document.getElementById('mobileMenu').classList.remove('open')">Experience</a>
+  <a href="#education" onclick="document.getElementById('mobileMenu').classList.remove('open')">Education</a>
+  <a href="#skills" onclick="document.getElementById('mobileMenu').classList.remove('open')">Skills</a>
+  <a href="#projects" onclick="document.getElementById('mobileMenu').classList.remove('open')">Projects</a>
+  <a href="#contact" onclick="document.getElementById('mobileMenu').classList.remove('open')">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Open to opportunities</div>
+    <h1>Peter<br/><em>Hartinger</em></h1>
+    <p class="hero-sub">Solving business problems at the intersection of technology, data, and strategy.</p>
+    <div class="hero-btns">
+      <a href="#experience" class="btn-primary">View Experience</a>
+      <a href="CV-Peter-Hartinger.pdf" class="btn-outline" target="_blank">Download CV</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="container">
+    <div class="fade-in">
+      <p class="section-label">About Me</p>
+      <div class="brand-row">
+        <span>KPMG</span>
+        <span class="brand-dot">·</span>
+        <span>Schwarz IT</span>
+        <span class="brand-dot">·</span>
+        <span>HKUST</span>
+      </div>
+      <h2>Technology meets<br/>business strategy</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text fade-in">
+        <p>Built AI driven solutions for document classification and data extraction to support financial services processes. Developed internal tools for tax compliance workflows and collaborated with developers and consultants in agile project environments.</p>
+      </div>
+      <div class="about-highlights fade-in">
+        <div class="highlight-item">
+          <div class="highlight-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="5" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="8" y="16" width="8" height="5" rx="1"/><path d="M6.5 8v3a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V8M12 13v3"/></svg>
+          </div>
+          <div class="highlight-text">
+            <strong>Business process consulting</strong>
+            <span>Regulatory compliance, requirement engineering, SAP Signavio</span>
+          </div>
         </div>
-    </nav>
-
-    <section id="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Peter Hartinger</h1>
-                <div class="subtitle">3rd-Year Business Informatics Student</div>
-                <div class="subtitle"><span class="highlight">SAP & Coding Enthusiast</span></div>
-                <div class="status">
-                    <span class="status-dot"></span>
-                    Open to work
-                </div>
-                <div class="cta-buttons">
-                    <a href="#experience" class="btn btn-primary">View Experience</a>
-                    <a href="CV-Peter-Hartinger.pdf" class="btn btn-secondary">Download CV</a>
-                </div>
-            </div>
+        <div class="highlight-item">
+          <div class="highlight-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="m8 21 4-4 4 4M12 17v4"/></svg>
+          </div>
+          <div class="highlight-text">
+            <strong>AI and software development</strong>
+            <span>AI agents, Python, automation, full-stack web applications</span>
+          </div>
         </div>
-    </section>
-
-    <section id="about">
-        <div class="container">
-            <h2>About Me</h2>
-            <div class="about-grid">
-                <div class="about-text">
-                    <p>I'm a 3rd-year business informatics student passionate about bridging business processes with technology solutions. My academic journey has equipped me with both technical expertise and business acumen to develop systems that drive operational efficiency.</p>
-                </div>
-                <div class="expertise-card">
-                    <h3>My Expertise</h3>
-                    <ul>
-                        <li>Developing applications for customers</li>
-                        <li>Analyzing business processes</li>
-                        <li>Leading cross-functional project teams</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="highlight-item">
+          <div class="highlight-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div class="highlight-text">
+            <strong>International experience</strong>
+            <span>Studied and lived abroad at HKUST Hong Kong on a PROMOS scholarship</span>
+          </div>
         </div>
-    </section>
-
-    <section id="skills">
-        <div class="container">
-            <h2>Technical Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <h3>Programming</h3>
-                    <ul>
-                        <li>Java</li>
-                        <li>JavaScript</li>
-                        <li>PHP</li>
-                        <li>HTML/CSS</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
-                    <h3>Data & Business</h3>
-                    <ul>
-                        <li>SQL/Databases</li>
-                        <li>SAP Fiori</li>
-                        <li>SAP Signavio</li>
-                        <li>Excel</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
-                    <h3>Productivity</h3>
-                    <ul>
-                        <li>Word</li>
-                        <li>PowerPoint</li>
-                        <li>Figma</li>
-                        <li>GitHub</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="highlight-item">
+          <div class="highlight-icon">
+            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="highlight-text">
+            <strong>Data and analytics</strong>
+            <span>SQL, Power BI, Excel, machine learning fundamentals</span>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section id="experience">
-        <div class="container">
-            <h2>Experience</h2>
-            
-            <div class="project-card">
-                <div class="project-header">
-                    <div>
-                        <h3>Software Developer Intern</h3>
-                        <div class="project-meta">KPMG - FS Tax | August 2025 - January 2026</div>
-                    </div>
-                </div>
-                <p class="project-description">
-                    Worked as a Software Developer in the FS Tax department at KPMG. Developed AI agents and contributed to software development for tax technology solutions and financial services clients.
-                </p>
-                <div class="project-tags">
-                    <span class="tag">AI Development</span>
-                    <span class="tag">Software Development</span>
-                    <span class="tag">Financial Services</span>
-                    <span class="tag">Tax Technology</span>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-header">
-                    <div>
-                        <h3>Business Process Consultant</h3>
-                        <div class="project-meta">Schwarz digits | May 2024 - July 2025</div>
-                    </div>
-                </div>
-                <p class="project-description">
-                    Collaborated with Schwarz digits to analyze and optimize their business processes. Worked on requirement gathering, process mapping, and delivered client-facing solutions.
-                </p>
-                <div class="project-tags">
-                    <span class="tag">Process Analysis</span>
-                    <span class="tag">SAP</span>
-                    <span class="tag">Consulting</span>
-                    <span class="tag">Client Facing</span>
-                </div>
-            </div>
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">Experience</p>
+      <h2>Where I have worked</h2>
+    </div>
+    <div class="exp-list">
+      <div class="exp-item fade-in clickable" data-modal="kpmg" tabindex="0" role="button" aria-label="View KPMG details">
+        <div class="exp-date">
+          <strong>KPMG</strong>
+          Aug 2025 – Jan 2026
         </div>
-    </section>
-
-    <section id="projects">
-        <div class="container">
-            <h2>Projects</h2>
-
-            <div class="project-card">
-                <h3>Flight Logbook App</h3>
-                <p class="project-description">
-                    Digital flight logbook application developed by a team of 5 for a professor (hobby pilot) following full software development lifecycle processes with comprehensive documentation.
-                </p>
-                <div class="project-tags">
-                    <span class="tag">Java</span>
-                    <span class="tag">MVC Architecture</span>
-                    <span class="tag">SDLC</span>
-                    <span class="tag">Team of 5</span>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <h3>Restaurant Management System</h3>
-                <p class="project-description">
-                    Full-stack website for online food ordering and employee shift management, developed as a group project with real client requirements.
-                </p>
-                <div class="project-tags">
-                    <span class="tag">Full-Stack</span>
-                    <span class="tag">Team Project</span>
-                    <span class="tag">Web Development</span>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <h3>SAP Fiori Case Study</h3>
-                <p class="project-description">
-                    Explored navigation, controlling, and materials management in SAP S/4HANA through comprehensive academic case studies.
-                </p>
-                <div class="project-tags">
-                    <span class="tag">SAP Fiori</span>
-                    <span class="tag">Materials Management</span>
-                    <span class="tag">Controlling</span>
-                </div>
-            </div>
+        <div class="exp-content">
+          <h3>Software Engineering Intern</h3>
+          <div class="exp-company">KPMG, Financial Services Tax · Frankfurt</div>
+          <p>Developed AI agents for automated document classification and data extraction, supporting financial services teams in reducing manual processing effort. Built internal tools to streamline tax compliance workflows, and worked in an agile team alongside developers and consultants.</p>
+          <div class="exp-tags">
+            <span class="exp-tag">AI Development</span><span class="exp-tag">C#</span><span class="exp-tag">Tax Technology</span><span class="exp-tag">Agile</span><span class="exp-tag">Financial Services</span>
+          </div>
+          <div class="view-more"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>View details</div>
         </div>
-    </section>
-
-    <section id="education">
-        <div class="container">
-            <h2>Education</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <h3>Exchange Semester</h3>
-                    <div class="institution">Hong Kong University of Science and Technology</div>
-                    <div class="period">January 2026 - Present</div>
-                    <p style="color: #cbd5e1; margin-top: 0.5rem; font-size: 0.95rem;">Focus: AI and Machine Learning modules</p>
-                </div>
-                <div class="timeline-item">
-                    <h3>B.Sc. Business Informatics</h3>
-                    <div class="institution">Technische Hochschule Mannheim</div>
-                    <div class="period">September 2023 - Present</div>
-                </div>
-                <div class="timeline-item">
-                    <h3>Abitur</h3>
-                    <div class="institution">Gymnasium Riedberg</div>
-                    <div class="period">August 2014 - June 2023</div>
-                </div>
-            </div>
+        <span class="exp-arrow" aria-hidden="true">→</span>
+      </div>
+      <div class="exp-item fade-in clickable" data-modal="schwarz" tabindex="0" role="button" aria-label="View Schwarz IT details">
+        <div class="exp-date">
+          <strong>Schwarz IT</strong>
+          Mar 2025 – Jul 2025
         </div>
-    </section>
-
-    <section id="languages">
-        <div class="container">
-            <h2>Languages</h2>
-            <div class="languages-grid">
-                <div class="language-card">
-                    <h3>German</h3>
-                    <div class="level">Native</div>
-                </div>
-                <div class="language-card">
-                    <h3>English</h3>
-                    <div class="level">Fluent (C1)</div>
-                </div>
-                <div class="language-card">
-                    <h3>Spanish</h3>
-                    <div class="level">Intermediate (B1/B2)</div>
-                </div>
-                <div class="language-card">
-                    <h3>Italian</h3>
-                    <div class="level">Basic (A1)</div>
-                </div>
-            </div>
+        <div class="exp-content">
+          <h3>Consulting Project: EUDR Implementation</h3>
+          <div class="exp-company">Schwarz IT KG (Lidl / Kaufland Group) · TH Mannheim/Neckarsulm</div>
+          <p>Contributed to implementation planning for EU Deforestation Regulation compliance in a large scale retail technology environment. Built a compliance tracking dashboard and supported requirement gathering.</p>
+          <div class="exp-tags">
+            <span class="exp-tag">EUDR Compliance</span><span class="exp-tag">Regulatory Consulting</span><span class="exp-tag">Process Documentation</span><span class="exp-tag">Dashboard Development</span><span class="exp-tag">Stakeholder Management</span>
+          </div>
+          <div class="view-more"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>View details</div>
         </div>
-    </section>
+        <span class="exp-arrow" aria-hidden="true">→</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section id="contact">
-        <div class="container">
-            <h2>Get In Touch</h2>
-            <p class="contact-text">
-                I'm always open to discussing new projects, opportunities, or collaborations. Let's connect!
-            </p>
-            <div class="contact-links">
-                <a href="mailto:peter.hartinger.work@gmail.com" class="contact-link">Email</a>
-                <a href="https://www.linkedin.com/in/peter-hartinger" class="contact-link" target="_blank">LinkedIn</a>
-                <a href="https://github.com/PeterHartinger" class="contact-link" target="_blank">GitHub</a>
-            </div>
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">Education</p>
+      <h2>Academic background</h2>
+    </div>
+    <div class="edu-list">
+      <div class="edu-item fade-in">
+        <div>
+          <div class="edu-badge">Exchange Scholar</div>
+          <div class="edu-degree">Engineering Exchange: AI &amp; Machine Learning</div>
+          <div class="edu-school">Hong Kong University of Science and Technology (HKUST)</div>
+          <div class="edu-detail">Coursework: Machine Learning · Deep Learning in Computer Vision · Embedded AI Systems · Cloud Computing &amp; Big Data Systems · Big Data Mining &amp; Management · Tech Startup &amp; Entrepreneurship Ecosystem<br/>Scholarship: PROMOS (DAAD-funded merit scholarship for international exchange, awarded by TH Mannheim)</div>
         </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            © 2026 Peter Hartinger. All rights reserved.
+        <div class="edu-date">Feb 2026 – May 2026</div>
+      </div>
+      <div class="edu-item fade-in">
+        <div>
+          <div class="edu-degree">B.Sc. Business Information Systems</div>
+          <div class="edu-school">Technische Hochschule Mannheim</div>
+          <div class="edu-detail">Coursework: Programming · Software Engineering · Databases · Web-based Systems · Business Administration · Mathematics for Computer Science<br/>Activities: Computer Science Student Council Member · Code of Conduct Officer</div>
         </div>
-    </footer>
+        <div class="edu-date">Sep 2023 – Present</div>
+      </div>
+      <div class="edu-item fade-in">
+        <div>
+          <div class="edu-degree">Abitur (General University Entrance Qualification)</div>
+          <div class="edu-school">Gymnasium Riedberg, Frankfurt am Main</div>
+          <div class="edu-detail">Advanced Courses: Mathematics, Physics</div>
+        </div>
+        <div class="edu-date">Sep 2014 – Jun 2023</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script>
-        // Update nav height dynamically
-        function updateNavHeight() {
-            const nav = document.querySelector('nav');
-            const navHeight = nav.offsetHeight;
-            document.documentElement.style.setProperty('--nav-height', `${navHeight}px`);
-        }
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">Skills</p>
+      <h2>Technical toolkit</h2>
+      <p class="section-intro">A combination of programming, business systems, and data tools built through coursework, internships, and independent projects.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card fade-in">
+        <h3>Business Analysis</h3>
+        <div class="skill-tags">
+          <span class="tag">Process Mapping</span><span class="tag">Requirement Engineering</span><span class="tag">Stakeholder Communication</span><span class="tag">Compliance Analysis</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <h3>Analytics & Data</h3>
+        <div class="skill-tags">
+          <span class="tag">SQL</span><span class="tag">Power BI</span><span class="tag">Excel</span><span class="tag">Python</span><span class="tag">Data Visualization</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <h3>Technology</h3>
+        <div class="skill-tags">
+          <span class="tag">AI/ML</span><span class="tag">Automation</span><span class="tag">Web Development</span><span class="tag">Cloud</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        // Update on load and resize
-        updateNavHeight();
-        window.addEventListener('resize', updateNavHeight);
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">Projects</p>
+      <h2>Selected work</h2>
+      <p class="section-intro">Academic and team projects built for real clients, following professional development standards.</p>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card fade-in clickable" data-modal="flight" tabindex="0" role="button" aria-label="View Flight Logbook details">
+        <h3>Flight Logbook Application</h3>
+        <p>AirLogix — a digital flight logbook built by a team of 5, covering the full SDLC from requirements and traceability documents through to testing, release notes, and a client presentation.</p>
+        <div class="project-tags"><span class="tag">Java</span><span class="tag">MVC Architecture</span><span class="tag">Full SDLC</span><span class="tag">Team of 5</span></div>
+        <div class="view-more"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>View details</div>
+      </div>
+      <div class="project-card fade-in clickable" data-modal="wardrobe" tabindex="0" role="button" aria-label="View Wardrobe project details">
+        <h3>Wardrobe Fit — Startup Concept</h3>
+        <p>Identified a consumer pain point, validated the idea through a survey of 30 respondents, and pitched the solution using the SAVE framework to an audience at HKUST.</p>
+        <div class="project-tags"><span class="tag">Market Research</span><span class="tag">SAVE Model</span><span class="tag">Pitching</span><span class="tag">HKUST</span></div>
+        <div class="view-more"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>View details</div>
+      </div>
+      <div class="project-card fade-in clickable" data-modal="sap" tabindex="0" role="button" aria-label="View SAP project details">
+        <h3>SAP Fiori Case Study</h3>
+        <p>In-depth exploration of SAP S/4HANA including navigation, materials management, and controlling modules through structured academic case studies.</p>
+        <div class="project-tags"><span class="tag">SAP Fiori</span><span class="tag">SAP S/4HANA</span><span class="tag">Controlling</span></div>
+        <div class="view-more"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>View details</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        // Active navigation state
-        const navLinks = document.querySelectorAll('nav a[href^="#"]');
-        const sections = document.querySelectorAll('section');
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">Certifications &amp; Awards</p>
+      <h2>Recognition</h2>
+    </div>
+    <div class="cert-grid">
+      <div class="cert-card fade-in">
+        <div class="cert-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+        </div>
+        <div>
+          <h3>BVH Certificate</h3>
+          <p>Federal Association of Stock Exchange Associations at German Universities</p>
+        </div>
+      </div>
+      <div class="cert-card fade-in">
+        <div class="cert-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div>
+          <h3>3rd Place: Stock Market Simulation</h3>
+          <p>B.Sc. Business Information Systems program competition, Dec 2023</p>
+        </div>
+      </div>
+      <div class="cert-card fade-in">
+        <div class="cert-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div>
+          <h3>PROMOS Scholarship</h3>
+          <p>DAAD-funded merit scholarship for international exchange, awarded by TH Mannheim for the HKUST semester (2026)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        function updateActiveNav() {
-            const scrollPosition = window.scrollY + 100;
+<!-- LANGUAGES -->
+<section id="languages">
+  <div class="container fade-in">
+    <p class="section-label">Languages</p>
+    <h2>Communication</h2>
+    <div class="lang-grid" style="margin-top:2.5rem">
+      <div class="lang-item"><div class="lang-name">German</div><div class="lang-level">Native</div><div class="lang-bar"><div class="lang-fill" style="width:100%"></div></div></div>
+      <div class="lang-item"><div class="lang-name">English</div><div class="lang-level">Fluent · C1</div><div class="lang-bar"><div class="lang-fill" style="width:90%"></div></div></div>
+      <div class="lang-item"><div class="lang-name">Spanish</div><div class="lang-level">Intermediate · B1/B2</div><div class="lang-bar"><div class="lang-fill" style="width:60%"></div></div></div>
+      <div class="lang-item"><div class="lang-name">Italian</div><div class="lang-level">Basic · A1</div><div class="lang-bar"><div class="lang-fill" style="width:10%"></div></div></div>
+      <div class="lang-item"><div class="lang-name">Mandarin</div><div class="lang-level">Beginner · learning</div><div class="lang-bar"><div class="lang-fill" style="width:5%"></div></div></div>
+    </div>
+  </div>
+</section>
 
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.offsetHeight;
-                const sectionId = section.getAttribute('id');
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container fade-in">
+    <p class="section-label">Contact</p>
+    <h2>Let's connect</h2>
+    <p class="section-intro">I am actively looking for analyst and consulting opportunities. Feel free to reach out.</p>
+    <div class="contact-links">
+      <a href="mailto:peter.hartinger.work@gmail.com" class="contact-link">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        peter.hartinger.work@gmail.com
+      </a>
+      <a href="https://www.linkedin.com/in/peter-hartinger" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        linkedin.com/in/peter-hartinger
+      </a>
+      <a href="https://github.com/PeterHartinger" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        github.com/PeterHartinger
+      </a>
+      <a href="tel:+4915229232308" class="contact-link">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +49 152 29232308
+      </a>
+    </div>
+  </div>
+</section>
 
-                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                    navLinks.forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === `#${sectionId}`) {
-                            link.classList.add('active');
-                        }
-                    });
-                }
-            });
-        }
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+  <div class="modal-box" id="modalBox">
+    <button class="modal-close" id="modalClose" aria-label="Close">
+      <svg viewBox="0 0 14 14"><path d="M1 1l12 12M13 1L1 13"/></svg>
+    </button>
+    <div id="modalContent"></div>
+  </div>
+</div>
 
-        window.addEventListener('scroll', updateActiveNav);
-        updateActiveNav();
+<footer><p>&copy; 2026 Peter Hartinger. All rights reserved.</p></footer>
 
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
+<script>
+// Scroll progress
+const bar = document.getElementById('progressBar');
+window.addEventListener('scroll', function() {
+  const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  bar.style.width = pct + '%';
+}, { passive: true });
 
-        // Intersection Observer for fade-in animations (only on scroll, not initial load)
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+// Fade-in on scroll
+const fadeObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('visible'); fadeObs.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-in').forEach(function(el) { fadeObs.observe(el); });
 
-        let hasScrolled = false;
+// Tag stagger on scroll
+const tagObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.tag').forEach(function(t, i) {
+        setTimeout(function() { t.classList.add('visible'); }, i * 50);
+      });
+      tagObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.skills-grid').forEach(function(el) { tagObs.observe(el); });
 
-        window.addEventListener('scroll', () => {
-            hasScrolled = true;
-        }, { once: true });
+// Modal data
+var modals = {
+  kpmg: {
+    logo: { file: 'img/kpmg-logo.png', name: 'KPMG', dept: 'Financial Services Tax · Frankfurt' },
+    meta: 'KPMG · Financial Services Tax · Frankfurt',
+    title: 'Software Engineering Intern',
+    sub: 'August 2025 – January 2026',
+    sections: [
+      {
+        heading: 'Context',
+        text: "KPMG's Financial Services Tax department works with banks, asset managers, and insurance companies on complex tax compliance challenges. The team I joined was building internal technology to reduce the manual workload involved in processing large volumes of financial documents."
+      },
+      {
+        heading: 'What I worked on',
+        bullets: [
+          "Developed AI agents capable of classifying incoming financial documents by type and extracting structured data fields, reducing the need for manual document review.",
+          "Built internal tooling to support tax compliance workflows, improving traceability and consistency across client engagements.",
+          "Collaborated in an agile team with both developers and tax consultants, learning to work at the interface of technical delivery and consulting."
+        ]
+      },
+      {
+        heading: 'Key takeaways',
+        bullets: [
+          "First exposure to Big Four project culture: structured delivery, clear documentation standards, and high expectations for quality.",
+          "Deepened understanding of how AI can be applied practically in regulated industries where accuracy and auditability matter.",
+          "Learned how to bridge the gap between what a consultant needs and what an engineer can build."
+        ]
+      },
+      {
+        heading: 'Technologies',
+        tags: ['AI Development', 'C#', 'Tax Technology', 'Agile', 'Financial Services']
+      }
+    ]
+  },
+  schwarz: {
+    logo: { file: 'img/schwarz-it-logo.png', name: 'Schwarz IT KG', dept: 'Technology · Neckarsulm' },
+    meta: 'Schwarz IT KG · Neckarsulm',
+    title: 'Consulting Project: EUDR Implementation',
+    sub: 'March 2025 – July 2025',
+    sections: [
+      {
+        heading: 'Context',
+        text: "The EU Deforestation Regulation (EUDR) requires companies to prove that key commodities are not sourced from deforested land. For Schwarz IT, the technology arm behind Lidl and Kaufland, ensuring compliance across a global supply chain was a significant operational challenge."
+      },
+      {
+        heading: 'What I worked on',
+        bullets: [
+          "Contributed to implementation planning: translating regulatory requirements into concrete process steps and technology tasks across business units.",
+          "Designed and built a compliance tracking dashboard that visualised milestone status, supplier documentation, and regulatory deadlines.",
+        ]
+      },
+      {
+        heading: 'Key takeaways',
+        bullets: [
+          "Hands-on experience translating regulatory requirements into structured processes, a core consulting skill.",
+          "Learned to communicate across business and IT stakeholders with different priorities.",
+          "Understood how enterprise-scale organisations approach compliance: it requires as much process design and change management as technology."
+        ]
+      },
+      {
+        heading: 'Technologies',
+        tags: ['EUDR Compliance', 'Regulatory Consulting', 'Process Documentation', 'Dashboard Development', 'Stakeholder Management']
+      }
+    ]
+  },
+  flight: {
+    meta: 'Academic Project · Team of 5',
+    title: 'AirLogix — Flight Logbook Application',
+    sub: 'Java · MVC Architecture · Full SDLC',
+    sections: [
+      {
+        heading: 'Context',
+        text: "A professor who was also a hobby pilot wanted a digital replacement for his paper-based flight log. Our team of five took the project from an initial client interview all the way through to a live presentation of the finished product, following a complete software development lifecycle."
+      },
+      {
+        heading: 'SDLC process',
+        bullets: [
+          "Started with a client interview to capture needs, producing both a requirement sheet (Lastenheft) and a specification sheet (Pflichtenheft) — two distinct document types we were required to learn and differentiate.",
+          "After client review and revision of both documents, we produced a traceability document linking requirements to implementation decisions, and a Software Configuration Management Plan before writing any code.",
+          "Built the application in Java using a model-view-controller architecture.",
+          "After development, wrote a formal test plan, executed the tests, documented the results in a test report, and issued a release note upon completion.",
+          "Closed the project with a live presentation of the product to the client."
+        ]
+      },
+      {
+        heading: 'What I learned',
+        bullets: [
+          "How professional software documentation works end-to-end, from requirements capture through release — not just the code.",
+          "The difference between what a client asks for (Lastenheft) and what a team commits to delivering (Pflichtenheft), a distinction that maps directly to consulting work.",
+          "Coordinating five people across design, implementation, and documentation under a real deadline with a real audience."
+        ]
+      },
+      {
+        heading: 'Links',
+        bullets: [
+          "GitHub repository: github.com/PeterHartinger/AirLogix",
+          "All project documents are in German and available on request."
+        ]
+      },
+      {
+        heading: 'Technologies',
+        tags: ['Java', 'MVC Architecture', 'Requirements Engineering', 'Pflichtenheft / Lastenheft', 'Test Planning', 'Technical Documentation', 'GitHub']
+      }
+    ]
+  },
+wardrobe: {
+    meta: 'HKUST · Tech Startup and Entrepreneurship Ecosystem',
+    title: 'Wardrobe Fit — Startup Concept',
+    sub: 'Market Research · SAVE Framework · Pitch Presentation',
+    sections: [
+      {
+        heading: 'The problem',
+        text: "Finding new clothing that actually fits an existing wardrobe is a common frustration. Most people buy items individually without a clear picture of what they already own, leading to mismatched purchases and underused clothes. Our team identified this as a concrete, relatable pain point with a viable product opportunity."
+      },
+      {
+        heading: 'What we did',
+        bullets: [
+          "Mapped out a solution concept: a tool to help users catalogue their wardrobe and get recommendations for new items that complement what they already own.",
+          "Designed and distributed a Google Forms survey to validate whether others shared the problem. Collected 30 responses, which confirmed the pain point and surfaced key user preferences around how they shop for clothes.",
+          "Analysed the survey results to refine our value proposition and understand the target user.",
+          "Delivered a structured pitch presentation using the SAVE model: Solution, Access, Value, and Education."
+        ]
+      },
+      {
+        heading: 'The SAVE framework',
+        bullets: [
+          "Solution: what the product does and the specific problem it addresses.",
+          "Access: how users would discover and reach the product.",
+          "Value: what makes the product worth using over existing alternatives.",
+          "Education: how users would learn about and understand the product."
+        ]
+      },
+      {
+        heading: 'What I learned',
+        bullets: [
+          "How to move from an abstract frustration to a structured product concept through market research rather than assumption.",
+          "Primary research in practice: designing questions that reveal genuine user behaviour, not just confirmation of what you already think.",
+          "How to communicate a business idea concisely to an audience using a structured framework, a skill directly transferable to consulting presentations."
+        ]
+      },
+      {
+        heading: 'Skills demonstrated',
+        tags: ['Problem Framing', 'Market Research', 'Survey Design', 'SAVE Framework', 'Pitch Presentation', 'Entrepreneurship', 'HKUST']
+      }
+    ]
+  },
+  sap: {
+    meta: 'Academic Project · TH Mannheim',
+    title: 'SAP Fiori Case Study',
+    sub: 'SAP S/4HANA · Controlling · Materials Management',
+    sections: [
+      {
+        heading: 'Context',
+        text: "SAP S/4HANA is the enterprise resource planning system used by the majority of large organisations globally. This case study was a structured deep-dive into how real businesses use the platform, covering three core modules through hands-on scenarios."
+      },
+      {
+        heading: 'Modules explored',
+        bullets: [
+          "Materials Management (MM): procurement processes, purchase orders, goods receipt, and inventory management in a simulated company environment.",
+          "Financial Controlling (CO): cost centre accounting, internal orders, and profitability analysis.",
+          "SAP Fiori navigation and UX: how the modern SAP interface is structured and how users move between transactions and analytical views."
+        ]
+      },
+      {
+        heading: 'Why it matters',
+        bullets: [
+          "SAP runs a significant share of global enterprise operations. Understanding it is directly relevant for consulting roles advising on ERP implementations.",
+          "This case study provided a foundation for the SAP Signavio work at Schwarz IT, where process documentation had to align with SAP system configuration."
+        ]
+      },
+      {
+        heading: 'Technologies',
+        tags: ['SAP S/4HANA', 'SAP Fiori', 'Materials Management', 'Financial Controlling', 'ERP', 'Business Processes']
+      }
+    ]
+  }
+};
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && hasScrolled) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+// Modal logic
+var overlay = document.getElementById('modalOverlay');
+var contentEl = document.getElementById('modalContent');
 
-        // Make hero section visible immediately
-        const heroSection = document.querySelector('#hero');
-        heroSection.style.opacity = '1';
-        heroSection.style.transform = 'translateY(0)';
+function buildModal(key) {
+  var d = modals[key];
+  if (!d) return;
+  var html = '';
+  if (d.logo) {
+    html += '<div class="modal-logo">';
+    if (d.logo.file) {
+      html += '<div class="modal-logo-img"><img src="' + d.logo.file + '" alt="' + d.logo.name + ' logo"></div>';
+    } else {
+      html += '<div class="modal-logo-placeholder">' + d.logo.initials.map(function(s){ return '<span>' + s + '</span>'; }).join('') + '</div>';
+    }
+    html += '<div class="modal-logo-info"><div class="logo-name">' + d.logo.name + '</div><div class="logo-sub">' + d.logo.dept + '</div></div>';
+    html += '</div>';
+  }
+  html += '<p class="modal-meta">' + d.meta + '</p>' +
+    '<h2 class="modal-title">' + d.title + '</h2>' +
+    '<p class="modal-sub">' + d.sub + '</p>';
+  d.sections.forEach(function(s) {
+    html += '<div class="modal-section"><h4>' + s.heading + '</h4>';
+    if (s.text) html += '<p>' + s.text + '</p>';
+    if (s.bullets) {
+      html += '<ul>' + s.bullets.map(function(b) { return '<li>' + b + '</li>'; }).join('') + '</ul>';
+    }
+    if (s.tags) {
+      html += '<div class="modal-tags">' + s.tags.map(function(t) { return '<span class="modal-tag">' + t + '</span>'; }).join('') + '</div>';
+    }
+    html += '</div>';
+  });
+  contentEl.innerHTML = html;
+}
 
-        // Animate other sections on scroll
-        document.querySelectorAll('section:not(#hero)').forEach(section => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(30px)';
-            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-            observer.observe(section);
-        });
+function openModal(key) {
+  buildModal(key);
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('modalClose').focus();
+}
 
-        // Animate cards individually
-        document.querySelectorAll('.skill-card, .project-card, .language-card').forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-            observer.observe(card);
-        });
-    </script>
+function closeModal() {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.querySelectorAll('[data-modal]').forEach(function(el) {
+  el.addEventListener('click', function() { openModal(el.dataset.modal); });
+  el.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(el.dataset.modal); }
+  });
+});
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+</script>
 </body>
 </html>
